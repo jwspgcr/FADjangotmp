@@ -1,0 +1,35 @@
+{% extends 'SNS/auth.html' %}
+{% block authContent %}
+
+    <div class="post">
+      <div class="date">
+        <table>
+          <tr>
+            <th>user</th>
+            <th>bio</th>
+            <th>follow</th>
+          </tr>
+          {% for customuser in customuser_list %}
+            {% if customuser != user.customuser %}
+              <tr>
+                <td>
+                  <a href="{% url 'user_post' pk=customuser.user.pk %}">
+                    {{ customuser }}
+                  </a>
+                </td>
+                <td>{{ customuser.bio }}</td>
+                <td>
+                  {% if customuser in user.customuser.followers.all%}
+                    <a class="btn btn-default" href="{% url 'unfollow' pk=customuser.user.pk %}">following</a>
+                  {% else %}
+                    <a class="btn btn-default" href="{% url 'follow' pk=customuser.user.pk %}">NOT following</a>
+                  {% endif %}
+                </td>
+              </tr>
+            {%endif%}
+          {% endfor %}
+        </table>
+      </div>
+    </div>
+
+{% endblock %}
